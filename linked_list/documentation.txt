@@ -1,0 +1,62 @@
+Node:  
+    -> Instance variable
+            dataval -> value of node
+            next -> ref. variable of next node
+SLinkedlist:
+    -> Instance variable
+            header -> ref. to firt node
+    -> Methods:
+            1.length():
+                return: number of nodes in make_list
+            2.addNode(val):
+                params:
+                    val(any): 
+                    position (default: 'end') : one of ['start','end',position(0 to number of nodes)]
+            3. search():
+                params:
+                    val: value to be deleted
+                return:
+                    node number if found
+                    else -1
+            4. reverse():
+                params:
+                    none
+                return:
+                    none
+            5. deleted():
+                params:
+                    value: position/node value
+                    on (default: 'position') : one of ['position','value']
+                Error:
+                    - 'on' not in ['position','value']
+                    - 'on'='position' and position is not valid
+            6. traversList():
+                params:
+                    callOn[default:print(nodevalue)]: 
+                        a function which will be mapped with each node value one by one.
+
+Examples:
+1.
+    list1 = SLinkedlist()
+    list1.addNode(10)
+    list1.traversList()  // 10
+    list1.addNode(20)    
+    list1.traversList() // 10->20
+    list1.addNode(30,1)
+    list1.traversList() // 10->30->20
+    list1.addNode('50','end')
+    list1.traversList() // 10->30->20->50 
+    list1.addNode(5,'start')
+    list1.traversList() // 5->10->30->20->50
+    print(list1.search('Friday')) // -1
+    print(list1.search(10)) // 1
+    list1.delete(2,'position')  
+    list1.traversList() // 5->10->20->50
+    list1.delete(20)  
+    list1.traversList() // 5->10->50
+    list1.reverse()
+2. def callOn(val):
+        print(val**2)
+    list = 5->10->50
+    list1.traversList(callOn) // 20 100 2500
+    print(list1.length())  // 3
