@@ -7,6 +7,35 @@ class SLinkedlist:
     def __init__(self):
         self.header = None
         self._length = 0
+        self.current =None
+        self.iterPos =0
+        self.upperLimit = None
+    def __iter__(self): 
+        self.current = self.header
+        self.iterPos = 0
+        return self 
+    def __next__(self,):  
+        if self.current == None or (self.upperLimit and self.iterPos>=self.upperLimit) : 
+            raise StopIteration 
+        else: 
+            x =self.current.dataval
+            self.current = self.current.next
+            self.iterPos +=1
+            return x
+    def __call__(self,upperLimit = None):
+        self.upperLimit = upperLimit
+        return self
+    def __add__(self,other):
+        if(type(self)==type(other)):
+            current = self.header
+            if(current==None):
+                self.header = other.header
+                return
+            while(current and current.next):
+                current = current.next
+            current.next = other.header
+        else:
+            raise TypeError("operand type missmatch")
     def length(self):
         return self._length
     def __isValidPosition__(self,position):
@@ -18,7 +47,7 @@ class SLinkedlist:
 
     # position: 'start','end',index(0 based),default='end'
     # throws Error: when position is not valid
-    def addNode(self,val=0,position='end'):
+    def add(self,val=0,position='end'):
         if(self.__isValidPosition__(position)):
             if(position == 'start'):
                 count = 0
@@ -43,7 +72,7 @@ class SLinkedlist:
     
     # takes argument a function which is mapped with each value of list.
     # if callOn is not provided then it simply prints the values.
-    def traversList(self,callOn=lambda a : print(a,end="->")):
+    def traverse(self,callOn=lambda a : print(a,end="->")):
         node = self.header
         while(node):
             if(callOn):
@@ -61,19 +90,21 @@ class SLinkedlist:
                 return count
             count += 1
             node = node.next
-        return -1
+        return None
     
     # Delete node based on = value || position , default = 'position'
     # Returns True if node deleted else False
     def delete(self,value,on='value'):
         if(on not in ['position','value']):
             raise TypeError('Invalid value of "on"')
+        if(on =='position'and value<0):
+            raise TypeError('Invalid position')
         node = self.header
         if(self._length == 0):
             return False
         if(on == 'position' and self.__isValidPosition__(value)):
             if(self._length == 1 ):
-                value = header.dataval
+                value = self.header.dataval
                 self.header = None
                 self._length = 0
                 return value
@@ -108,4 +139,43 @@ class SLinkedlist:
             prev = current
             current= next
         self.header = prev
-             
+    def middle(self):
+        slow = self.header
+        fast = self.header
+        if(self.header==None):
+            raise Exception('List is Empty')
+        while(fast and fast.next):
+            fast = fast.next.next
+            slow = slow.next
+        return slow.dataval
+
+    def sort(self,order='asc'):
+        if(self.header==None ):
+            return
+        if(self.header.next == None):
+            return 
+        i = self.header
+        lastNode = None
+        while(i!=None and i.next):
+            count =0
+            j = i.next
+            while(j!=None ):
+                if(order =='desc' and j.dataval>i.dataval):
+                    i.dataval,j.dataval = j.dataval,i.dataval
+                    count +=1
+                if(order =='asc' and j.dataval<i.dataval):
+                    i.dataval,j.dataval = j.dataval,i.dataval
+                    count +=1 
+                j = j.next
+            i = i.next
+    
+    def remove_duplicates(self):
+        fast = self.header
+        slow = self.header
+        while(fast):
+            if(fast.dataval!= slow.dataval):
+                slow = slow.next
+                slow.dataval = fast.dataval
+            fast = fast.next
+        slow.next = None
+            
