@@ -1,3 +1,4 @@
+
 class Node:
     def __init__(self,value=0,next=None):
         self.value = value
@@ -25,22 +26,28 @@ class Stack :
             self.nodes -=1
             return value
         raise Exception('stack empty')
+    def top(self):
+        if(self.top):
+            return self.top.value
+        raise Exception('Stack empty')
+    def isEmpty(self):
+        if self.top:
+            return False
+        return True
+# #test
+# s1 = Stack(3)
+# s1.push(5)
+# s1.push(4)
+# s1.push(3)
 
-#test
-s1 = Stack(3)
-s1.push(5)
-s1.push(4)
-s1.push(3)
+# print(s1.pop())
+# print(s1.pop())
+# print(s1.pop())
 
-print(s1.pop())
-print(s1.pop())
-print(s1.pop())
-
-s1.push(2)
-s1.push(1)
-s1.push(2)
+# s1.push(2)
 # s1.push(1)
+# s1.push(2)
+# # s1.push(1)
 
-print(s1.pop())
-print(s1.pop())
-print(s1.pop())
+# print(s1.pop())
+# print(s1.pop())
